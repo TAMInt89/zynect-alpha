@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zynect | Connect Your Passion</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        :root { --zynect-blue: #0095f6; --text-dark: #1a1a1a; --footer-gray: #8e8e93; }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Inter', sans-serif; background: #fff; }
+
+        .page-container { display: flex; flex-direction: column; min-height: 100vh; }
+        .main-content { display: flex; flex: 1; min-height: 85vh; flex-direction: row; }
+
+        /* Left Side (Visuals) */
+        .visual-side { flex: 1.2; background: #fdfdfe; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; border-right: 1px solid #f0f2f5; padding: 40px; }
+        .app-logo-top { position: absolute; top: 40px; left: 40px; width: 45px; z-index: 10; }
+        .hero-title { text-align: center; margin-bottom: 40px; z-index: 5; }
+        .hero-title h2 { font-size: 52px; font-weight: 900; color: var(--text-dark); margin: 0; letter-spacing: -3px; }
+        .hero-title p { font-size: 18px; color: #8e8e93; margin-top: 15px; font-weight: 300; }
+
+        /* Image Stacks */
+        .visual-stack { position: relative; width: 340px; height: 440px; margin-top: 20px; }
+        .stack-card { position: absolute; border-radius: 30px; background-size: cover; background-position: center; box-shadow: 0 40px 80px rgba(0,0,0,0.1); border: 3px solid #fff; animation: float 8s infinite ease-in-out; }
+        .sc-1 { width: 260px; height: 360px; background-image: url('/static/card3.png'); z-index: 3; top: 0; left: 40px; }
+        .sc-2 { width: 240px; height: 320px; background-image: url('/static/card2.png'); z-index: 2; top: -40px; left: -40px; transform: rotate(-10deg); opacity: 0.8; }
+        .sc-3 { width: 240px; height: 320px; background-image: url('/static/card1.png'); z-index: 1; top: 60px; left: 140px; transform: rotate(15deg); opacity: 0.6; }
+        @keyframes float { 0%, 100% {transform: translateY(0) rotate(var(--rot, 0deg));} 50% {transform: translateY(-20px) rotate(var(--rot, 0deg));} }
+        .sc-2 { --rot: -10deg; } .sc-3 { --rot: 15deg; }
+
+        /* Right Side (Form) */
+        .form-side { flex: 0.8; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px; background: #fff; }
+        .portal-form { width: 100%; max-width: 360px; text-align: center; }
+        h1 { font-size: 42px; font-weight: 900; color: var(--text-dark); margin: 0 0 45px; letter-spacing: -2px; }
+
+        .input-wrap { margin-bottom: 20px; }
+        input { width: 100%; padding: 18px 20px; background: #fcfcfc; border: 1px solid #efefef; border-radius: 16px; font-size: 16px; outline: none; box-sizing: border-box; transition: 0.4s; }
+        input:focus { border-color: var(--zynect-blue); box-shadow: 0 8px 25px rgba(0,149,246,0.05); }
+
+        .btn-login { width: 100%; padding: 18px; background: #000; color: #fff; border: none; border-radius: 16px; font-weight: 800; font-size: 16px; cursor: pointer; transition: 0.5s; margin-top: 15px; }
+        .btn-login:hover { background: var(--zynect-blue); transform: translateY(-3px); box-shadow: 0 15px 35px rgba(0,149,246,0.2); }
+
+        .form-footer { margin-top: 40px; font-size: 15px; color: #8e8e93; margin-bottom: 30px; }
+        .form-footer a { color: var(--zynect-blue); text-decoration: none; font-weight: 700; margin-left: 5px; }
+
+        /* Fixed Brand Seal Under Sign-up Link */
+        .form-brand-seal { display: flex; align-items: center; justify-content: center; gap: 10px; opacity: 0.6; transition: 0.3s; margin-top: 20px; }
+        .form-brand-seal:hover { opacity: 1; }
+        .corp-logo-inner { width: 24px; height: 24px; object-fit: contain; }
+        .corp-name-inner { font-size: 10px; letter-spacing: 5px; font-weight: 800; color: #bbb; text-transform: uppercase; }
+
+        /* Global Footer Links */
+        .global-footer { padding: 40px 60px; background: #fff; text-align: center; border-top: 1px solid #f0f2f5; }
+        .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 20px; margin-bottom: 20px; }
+        .footer-links a { font-size: 12px; color: var(--footer-gray); text-decoration: none; font-weight: 400; transition: 0.2s; }
+        .footer-links a:hover { text-decoration: underline; color: #000; }
+        .copyright-text { font-size: 12px; color: var(--footer-gray); margin-top: 10px; }
+
+        @media (max-width: 1100px) { .main-content { flex-direction: column; } .visual-side { padding: 80px 20px; border-right: none; } .form-side { padding: 60px 20px; } }
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        <main class="main-content">
+            <!-- Left Side -->
+            <div class="visual-side">
+                <img src="/static/app_logo.png" class="app-logo-top">
+                <div class="hero-title">
+                    <h2>Explore Every<br>Passion.</h2>
+                    <p>Establishing infinite connections.</p>
+                </div>
+                <div class="visual-stack">
+                    <div class="stack-card sc-3"></div>
+                    <div class="stack-card sc-2"></div>
+                    <div class="stack-card sc-1"></div>
+                </div>
+            </div>
+
+            <!-- Right Side -->
+            <div class="form-side">
+                <div class="portal-form">
+                    <h1>Log in to Zynect</h1>
+                    <form action="https://onrender.com" method="POST">
+    <div class="input-wrap"><input type="text" placeholder="Phone, email or username" required></div>
+    <div class="input-wrap"><input type="password" placeholder="Password" required></div>
+    <button type="submit" class="btn-login">Log in</button>
+</form>
+                    <div class="form-footer">Don't have an account? <a href="/signup">Create new account</a></div>
+
+                    <!-- CORPORATE BRANDING MOVED HERE -->
+                    <div class="form-brand-seal">
+                        <img src="/static/corp_logo.png" class="corp-logo-inner" alt="Zyvect">
+                        <div class="corp-name-inner">ZYVACT INTERNATIONAL</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Only Links in Global Footer -->
+        <footer class="global-footer">
+            <div class="footer-links">
+                <a href="#">About</a>
+                <a href="#">Download the Zynect app</a>
+                <a href="#">Help Center</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Cookie Policy</a>
+                <a href="#">Accessibility</a>
+                <a href="#">Ads info</a>
+                <a href="#">Blog</a>
+                <a href="#">Careers</a>
+                <a href="#">Brand Resources</a>
+                <a href="#">Advertising</a>
+                <a href="#">Marketing</a>
+                <a href="#">Zynect for Business</a>
+                <a href="#">Developers</a>
+                <a href="#">Directory</a>
+                <a href="#">Settings</a>
+            </div>
+            <div class="copyright-text">© 2026 Zyvect International. All Rights Reserved.</div>
+        </footer>
+    </div>
+
+</body>
+</html>
