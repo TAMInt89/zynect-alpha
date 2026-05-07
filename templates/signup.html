@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Universe | Zynect</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        :root { --zynect-blue: #0095f6; --glass-bg: rgba(255, 255, 255, 0.75); }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Inter', sans-serif; background: #fff; overflow-x: hidden; }
+
+        /* Glass Opening Animation */
+        @keyframes glassReveal { 0% { opacity: 0; backdrop-filter: blur(0px); transform: scale(0.98); } 100% { opacity: 1; backdrop-filter: blur(40px); transform: scale(1); } }
+
+        /* Moving Aura Background */
+        .page-aura { position: absolute; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at 5% 5%, #f2f9ff 0%, transparent 40%), radial-gradient(circle at 95% 95%, #fff5f8 0%, transparent 40%); animation: slow 20s infinite alternate linear; }
+        @keyframes slow { from {transform: scale(1);} to {transform: scale(1.1);} }
+
+        .master-wrapper { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 40px 20px; }
+
+        .signup-glass-card {
+            width: 100%; max-width: 480px; padding: 50px; 
+            background: var(--glass-bg); backdrop-filter: blur(50px); 
+            border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 40px; 
+            text-align: center; box-shadow: 0 40px 100px rgba(0, 0, 0, 0.05);
+            animation: glassReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        h1 { font-size: 36px; font-weight: 900; color: #1a1a1a; margin: 0 0 45px; letter-spacing: -2px; }
+
+        .form-area { text-align: left; }
+        .input-row { display: flex; gap: 12px; margin-bottom: 12px; }
+        .input-wrap { margin-bottom: 15px; position: relative; }
+        
+        input, select { 
+            width: 100%; padding: 18px 20px; background: rgba(255, 255, 255, 0.9); 
+            border: 1px solid #eef0f2; border-radius: 16px; font-size: 15px; outline: none; box-sizing: border-box; transition: 0.3s;
+        }
+        input:focus, select:focus { border-color: var(--zynect-blue); box-shadow: 0 8px 25px rgba(0,149,246,0.04); }
+
+        .label-text { font-size: 11px; font-weight: 800; color: #bbb; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; padding-left: 5px; }
+
+        .btn-signup { width: 100%; padding: 18px; background: #000; color: #fff; border: none; border-radius: 18px; font-weight: 800; font-size: 16px; cursor: pointer; transition: 0.4s; margin-top: 20px; letter-spacing: 1.5px; }
+        .btn-signup:hover { background: var(--zynect-blue); transform: translateY(-3px); box-shadow: 0 15px 35px rgba(0,149,246,0.2); }
+
+        .form-footer { margin-top: 40px; font-size: 14px; color: #8e8e93; text-align: center; }
+        .form-footer a { color: var(--zynect-blue); text-decoration: none; font-weight: 700; margin-left: 5px; }
+
+        .gender-row { display: flex; gap: 20px; margin-top: 5px; }
+        .gender-item { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #555; }
+
+        .corp-brand-seal { margin-top: 60px; display: flex; align-items: center; justify-content: center; gap: 10px; opacity: 0.4; }
+        .corp-logo { width: 22px; }
+        .corp-name { font-size: 9px; letter-spacing: 5px; font-weight: 800; color: #bbb; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+
+    <div class="page-aura"></div>
+
+    <div class="master-wrapper">
+        <div class="signup-glass-card">
+            <h1>Create Your Universe</h1>
+
+            <form method="post" action="/signup" class="form-area">
+                <div class="input-row">
+                    <input type="text" name="f_name" placeholder="First name" required>
+                    <input type="text" name="l_name" placeholder="Last name" required>
+                </div>
+
+                <div class="input-wrap">
+                    <!-- মাহি, এখানে এখন আর 'Username taken' এরর আসবে না -->
+                    <input type="text" name="username" placeholder="Username" required>
+                </div>
+
+                <div class="input-wrap">
+                    <input type="text" name="contact" placeholder="Mobile number or email" required>
+                </div>
+
+                <div class="input-wrap">
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+
+                <div class="input-wrap">
+                    <label class="label-text">Date of Birth</label>
+                    <div class="input-row">
+                        <select name="day">
+                            <option>Day</option>
+                            <script>for(let i=1;i<=31;i++) document.write(`<option>${i}</option>`)</script>
+                        </select>
+                        <select name="month">
+                            <option>Month</option>
+                            <option>Jan</option><option>Feb</option><option>Mar</option><option>Apr</option><option>May</option><option>Jun</option>
+                            <option>Jul</option><option>Aug</option><option>Sep</option><option>Oct</option><option>Nov</option><option>Dec</option>
+                        </select>
+                        <select name="year">
+                            <option>Year</option>
+                            <script>for(let i=2024;i>=1950;i--) document.write(`<option>${i}</option>`)</script>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-wrap">
+                    <label class="label-text">Gender</label>
+                    <div class="gender-row">
+                        <div class="gender-item"><input type="radio" name="gender" value="male"> Male</div>
+                        <div class="gender-item"><input type="radio" name="gender" value="female"> Female</div>
+                        <div class="gender-item"><input type="radio" name="gender" value="custom"> Custom</div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-signup">SUBMIT IDENTITY</button>
+            </form>
+
+            <div class="form-footer">
+                I already have an account? <a href="/login">Log in</a>
+            </div>
+
+            <div class="corp-brand-seal">
+                <img src="/static/corp_logo.png" class="corp-logo">
+                <div class="corp-name">ZYVACT INTERNATIONAL</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

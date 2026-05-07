@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zynect | Experience the Alpha</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        :root { --zynect-blue: #0095f6; --glass: rgba(255, 255, 255, 0.75); --text-dark: #1a1a1a; --gray: #8e8e93; }
+        body, html { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: #fff; scroll-behavior: smooth; overflow-x: hidden; }
+
+        /* Signature Aura Background */
+        .page-aura { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; background: radial-gradient(circle at 15% 15%, #e0f2ff 0%, transparent 45%), radial-gradient(circle at 85% 85%, #fff0f5 0%, transparent 45%); animation: slowAura 15s infinite alternate ease-in-out; }
+        @keyframes slowAura { from {transform: scale(1.1);} to {transform: scale(1) rotate(1deg);} }
+
+        /* Premium Navbar (Instagram Pro Style) */
+        .navbar { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(40px); border-bottom: 1px solid rgba(0,0,0,0.05); padding: 12px 60px; position: fixed; top: 0; width: 100%; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box; z-index: 1000; }
+        .nav-brand { font-size: 26px; font-weight: 900; letter-spacing: -2.5px; text-transform: uppercase; color: #000; text-decoration: none; cursor: pointer; }
+        .nav-right { display: flex; align-items: center; gap: 28px; }
+        
+        /* ICONS STRICT LOCK - Fixed size always */
+        .icon-svg { width: 24px !important; height: 24px !important; fill: none; stroke: #262626; stroke-width: 1.8; cursor: pointer; transition: 0.3s; flex-shrink: 0; }
+        .icon-svg:hover { color: var(--zynect-blue); stroke: var(--zynect-blue); transform: scale(1.1); }
+        .u-avatar-nav { width: 32px; height: 32px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; border: 1.5px solid var(--zynect-blue); color: #000; cursor: pointer; }
+
+        /* HAMBURGER SIDEBAR */
+        .settings-sidebar { position: fixed; top: 0; right: -350px; width: 320px; height: 100vh; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(50px); border-left: 1px solid rgba(0,0,0,0.05); z-index: 2000; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); padding: 50px 30px; box-sizing: border-box; }
+        .settings-sidebar.active { right: 0; box-shadow: -20px 0 60px rgba(0,0,0,0.05); }
+        
+        .menu-list { list-style: none; padding: 0; margin-top: 40px; }
+        .menu-item { display: flex; align-items: center; gap: 15px; padding: 18px 0; border-bottom: 1px solid rgba(0,0,0,0.03); cursor: pointer; color: #444; font-weight: 600; font-size: 15px; transition: 0.3s; }
+        .menu-item:hover { color: var(--zynect-blue); padding-left: 8px; }
+
+        /* THE SETTINGS POPUP MODAL (FACEBOOK STRUCTURE) */
+        .settings-popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(25px); z-index: 3000; align-items: center; justify-content: center; }
+        .popup-content { background: #fff; width: 90%; max-width: 580px; height: 85vh; border-radius: 40px; padding: 0; overflow: hidden; position: relative; box-shadow: 0 50px 150px rgba(0,0,0,0.2); animation: eliteIn 0.4s ease-out; }
+        @keyframes eliteIn { from {transform: scale(0.9); opacity:0;} to {transform: scale(1); opacity:1;} }
+        
+        .popup-header { display: flex; justify-content: space-between; align-items: center; padding: 30px 40px; border-bottom: 1px solid #f0f2f5; position: sticky; top: 0; background: #fff; z-index: 10; }
+        .popup-header h2 { margin: 0; font-size: 32px; font-weight: 900; }
+
+        .set-section { margin-bottom: 40px; }
+        .set-title { font-size: 12px; font-weight: 800; color: var(--gray); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block; border-left: 4px solid var(--zynect-blue); padding-left: 12px; }
+        .set-item { display: flex; align-items: center; justify-content: space-between; padding: 15px 12px; border-bottom: 1px solid #fafafa; cursor: pointer; transition: 0.2s; border-radius: 15px; }
+        .set-item:hover { background: #f8faff; color: var(--zynect-blue); transform: translateX(5px); }
+
+        /* Google Translate Fix */
+        #google_translate_element { margin-top: 10px; border: 1px dashed #ddd; padding: 15px; border-radius: 20px; background: #f8faff; }
+        .goog-te-gadget-simple { background: #fff !important; border: 1px solid #eee !important; padding: 12px !important; border-radius: 15px !important; width: 100% !important; font-family: 'Inter' !important; font-weight: 700 !important; cursor: pointer !important; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+
+        .feed-container { max-width: 580px; margin: 100px auto 40px; padding: 0 15px; }
+        .glass-card { background: var(--glass); backdrop-filter: blur(50px); border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 40px; padding: 30px; box-shadow: 0 40px 100px rgba(0, 0, 0, 0.04); margin-bottom: 25px; animation: revealUp 1s ease-out; }
+        @keyframes revealUp { from {opacity: 0; transform: translateY(30px);} to {opacity: 1; transform: translateY(0);} }
+
+        @media (max-width: 800px) { .navbar { padding: 12px 25px; } .popup-content { width: 100%; height: 100vh; border-radius: 0; } }
+    </style>
+</head>
+<body>
+
+    <div class="page-aura"></div>
+
+    <nav class="navbar">
+        <a href="/" class="nav-brand">Zynect</a>
+        <div class="nav-right">
+            <!-- Home Icon -->
+            <a href="/"><svg class="icon-svg" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg></a>
+            <!-- Messenger Icon -->
+            <svg class="icon-svg" viewBox="0 0 24 24" stroke="currentColor"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-4.9a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            <a href="/profile" style="text-decoration:none;"><div class="u-avatar-nav">{{ user[:1] }}</div></a>
+            <!-- Menu Icon -->
+            <svg class="icon-svg" onclick="toggleMenu()" viewBox="0 0 24 24" stroke="currentColor"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </div>
+    </nav>
+
+    <!-- Side Menu Sidebar -->
+    <div class="settings-sidebar" id="sideMenu">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h2 style="margin:0; font-weight:900;">Menu</h2>
+            <span style="font-size:24px; cursor:pointer; opacity:0.3;" onclick="toggleMenu()">✕</span>
+        </div>
+        <div class="menu-list">
+            <div class="menu-item" onclick="openSettings()"><svg class="icon-svg" style="width:20px!important;" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg> Settings and Privacy</div>
+            <div class="menu-item"><svg class="icon-svg" style="width:20px!important;" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> Help and Support</div>
+            <div class="menu-item"><svg class="icon-svg" style="width:20px!important;" viewBox="0 0 24 24" stroke="currentColor"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> Display and Accessibility</div>
+            <a href="/logout" style="text-decoration:none; color:#ed4956;"><div class="menu-item logout-item"><svg class="icon-svg" style="width:20px!important; stroke:#ed4956;" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Log Out</div></a>
+        </div>
+    </div>
+
+    <!-- SETTINGS POPUP MODAL (FULL FACEBOOK STRUCTURE) -->
+    <div class="settings-popup" id="settingsPopup">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h2>Settings</h2>
+                <span style="cursor:pointer; font-size:24px; opacity:0.3;" onclick="closeSettings()">✕</span>
+            </div>
+            <div style="height: calc(85vh - 100px); overflow-y: auto; padding: 30px 40px; text-align: left;">
+                <div class="set-section"><span class="set-title">Global Experience</span><div id="google_translate_element"></div></div>
+                <div class="set-section"><span class="set-title">Your account</span><div class="set-item"><span>Account details</span> <i>›</i></div></div>
+                <div class="set-section"><span class="set-title">Tools</span><div class="set-item"><span>Default audience settings</span> <i>›</i></div></div>
+                <div class="set-section"><span class="set-title">Preferences</span><div class="set-item"><span>Notifications</span> <i>›</i></div><div class="set-item"><span>Region</span> <i>›</i></div><div class="set-item"><span>Reaction</span> <i>›</i></div></div>
+                <div class="set-section"><span class="set-title">Visibility</span><div class="set-item"><span>Find and contact you</span> <i>›</i></div><div class="set-item"><span>Posts</span> <i>›</i></div><div class="set-item"><span>Stories</span> <i>›</i></div><div class="set-item" style="color:var(--zynect-blue);"><span>Smalls Settings</span> <b>●</b></div><div class="set-item"><span>Blocking</span> <i>›</i></div></div>
+                <div class="set-section"><span class="set-title">Community Standards</span><div class="set-item"><span>Terms of Service</span> <i>›</i></div><div class="set-item"><span>Privacy Policy</span> <i>›</i></div></div>
+                <p style="text-align:center; color:#ccc; font-size:10px; letter-spacing:5px; margin-top:50px;">ZYVACT INTERNATIONAL</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="feed-container">
+        <div class="glass-card" style="text-align:center;">
+            <b>Zynect Global Experience Active</b><br>
+            <p>Welcome, {{ user }}. Ready to connect?</p>
+        </div>
+    </div>
+
+    <!-- TRANSLATE ENGINE -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//://google.com"></script>
+
+    <script>
+        function toggleMenu() { document.getElementById('sideMenu').classList.toggle('active'); }
+        function openSettings() { document.getElementById('settingsPopup').style.display = 'flex'; toggleMenu(); }
+        function closeSettings() { document.getElementById('settingsPopup').style.display = 'none'; }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

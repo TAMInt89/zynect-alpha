@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zynect | Global Experience</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        :root { --zynect-blue: #0095f6; --glass: rgba(255, 255, 255, 0.7); --gray: #8e8e93; }
+        body, html { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: #fff; scroll-behavior: smooth; overflow-x: hidden; }
+
+        /* Signature Aura Background */
+        .page-aura { position: fixed; width: 100%; height: 100%; z-index: -1; top: 0; left: 0; background: radial-gradient(circle at 15% 15%, #e0f2ff 0%, transparent 45%), radial-gradient(circle at 85% 85%, #fff0f5 0%, transparent 45%); animation: slowAura 15s infinite alternate ease-in-out; }
+        @keyframes slowAura { from {transform: scale(1.1);} to {transform: scale(1) rotate(1deg);} }
+
+        /* Navbar */
+        .navbar { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(40px); border-bottom: 1px solid rgba(0,0,0,0.05); padding: 12px 60px; position: fixed; top: 0; width: 100%; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box; z-index: 1000; }
+        .nav-brand { font-size: 26px; font-weight: 900; letter-spacing: -2.5px; text-transform: uppercase; color: #000; text-decoration: none; }
+        .icon-svg { width: 22px !important; height: 22px !important; fill: none; stroke: #262626; stroke-width: 1.8; cursor: pointer; transition: 0.3s; flex-shrink: 0; }
+        .u-avatar-nav { width: 32px; height: 32px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; border: 1.5px solid var(--zynect-blue); }
+
+        /* Sidebar Settings Menu */
+        .settings-sidebar { position: fixed; top: 0; right: -350px; width: 320px; height: 100vh; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(50px); border-left: 1px solid rgba(0,0,0,0.05); z-index: 2000; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); padding: 50px 30px; box-sizing: border-box; }
+        .settings-sidebar.active { right: 0; box-shadow: -20px 0 60px rgba(0,0,0,0.05); }
+        .menu-item { display: flex; align-items: center; gap: 15px; padding: 18px 0; border-bottom: 1px solid rgba(0,0,0,0.03); cursor: pointer; color: #444; font-weight: 600; font-size: 15px; }
+
+        /* THE SETTINGS POPUP */
+        .settings-popup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(20px); z-index: 3000; align-items: center; justify-content: center; }
+        .popup-content { background: #fff; width: 90%; max-width: 580px; height: 85vh; border-radius: 40px; padding: 0; position: relative; overflow: hidden; box-shadow: 0 50px 150px rgba(0,0,0,0.2); }
+        .popup-header { display: flex; justify-content: space-between; align-items: center; padding: 30px 40px; border-bottom: 1px solid #f0f2f5; }
+        .popup-body { padding: 30px 40px; height: calc(85vh - 100px); overflow-y: auto; text-align: left; }
+
+        .set-section { margin-bottom: 40px; }
+        .set-title { font-size: 11px; font-weight: 800; color: var(--gray); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 18px; display: block; border-left: 3px solid var(--zynect-blue); padding-left: 10px; }
+        .set-item { display: flex; align-items: center; justify-content: space-between; padding: 15px 12px; border-bottom: 1px solid #fafafa; cursor: pointer; transition: 0.2s; border-radius: 12px; }
+        .set-item:hover { background: #f8faff; color: var(--zynect-blue); }
+
+        /* Facebook Style Language Layout */
+        .language-view { display: none; }
+        .lang-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
+        .lang-btn { background: #f0f2f5; padding: 18px; border-radius: 15px; text-align: center; font-weight: 700; font-size: 15px; cursor: pointer; transition: 0.3s; border: 2px solid transparent; }
+        .lang-btn:hover { border-color: var(--zynect-blue); color: var(--zynect-blue); background: #fff; }
+        
+        /* The Real Engine Trigger - FIXED */
+        .google-box { margin-top: 25px; background: #f8faff; padding: 25px; border-radius: 20px; border: 1px dashed #ddd; text-align: center; }
+        
+        /* Hiding cheap Google Bar */
+        .goog-te-gadget-simple { background: #fff !important; border: 1px solid #eee !important; padding: 15px !important; border-radius: 15px !important; width: 100% !important; font-family: 'Inter' !important; font-weight: 700 !important; cursor: pointer !important; display: flex !important; justify-content: center !important; }
+        .goog-te-gadget-icon { display: none !important; }
+        .goog-te-menu-frame { z-index: 5000 !important; }
+        .goog-te-banner-frame.skiptranslate { display: none !important; } 
+        body { top: 0px !important; }
+
+        @media (max-width: 800px) { .navbar { padding: 12px 25px; } .popup-content { width: 100%; height: 100vh; border-radius: 0; } }
+    </style>
+</head>
+<body>
+
+    <div class="page-aura"></div>
+
+    <!-- Hidden Engine (Must be outside for perfect loading) -->
+    <div id="google_translate_element" style="display:none;"></div>
+
+    <nav class="navbar">
+        <a href="/" class="nav-brand">Zynect</a>
+        <div class="nav-right" style="display:flex; gap:25px; align-items:center;">
+            <a href="/"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg></a>
+            <a href="/profile" style="text-decoration:none;"><div class="u-avatar-nav">{{ user[:1] }}</div></a>
+            <svg class="icon-svg" onclick="toggleMenu()" viewBox="0 0 24 24" stroke="currentColor"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </div>
+    </nav>
+
+    <!-- Side Menu -->
+    <div class="settings-sidebar" id="sideMenu">
+        <div style="display:flex; justify-content:space-between; align-items:center;"><h2 style="margin:0; font-weight:900;">Menu</h2><span style="font-size:24px; cursor:pointer;" onclick="toggleMenu()">✕</span></div>
+        <div class="menu-list">
+            <div class="menu-item" onclick="openSettings()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px; opacity:0.7;"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg> Settings and Privacy</div>
+            <a href="/logout" style="text-decoration:none; color:#ed4956;"><div class="menu-item">🚪 Log Out</div></a>
+        </div>
+    </div>
+
+    <!-- SETTINGS MODAL -->
+    <div class="settings-popup" id="settingsPopup">
+        <div class="popup-content">
+            <div class="popup-header" id="modalHeader">
+                <h2 style="margin:0;">Settings</h2>
+                <span style="cursor:pointer; font-size:24px; opacity:0.3;" onclick="closeSettings()">✕</span>
+            </div>
+
+            <div class="popup-body">
+                <div id="settingsMain">
+                    <div class="set-section">
+                        <span class="set-title">Global Experience</span>
+                        <div class="set-item" onclick="showLanguages()"><span>Select Language</span> <i>›</i></div>
+                    </div>
+                    <div class="set-section"><span class="set-title">Your account</span><div class="set-item"><span>Account details</span> <i>›</i></div></div>
+                    <div class="set-section"><span class="set-title">Preferences</span><div class="set-item"><span>Notifications</span> <i>›</i></div></div>
+                </div>
+
+                <!-- LANGUAGE VIEW (FULLY FIXED) -->
+                <div id="languageLayout" class="language-view">
+                    <div style="margin-bottom:20px; color:var(--zynect-blue); font-weight:800; cursor:pointer;" onclick="hideLanguages()">← Back to Settings</div>
+                    
+                    <p style="font-weight:800; font-size:12px; color:#8e8e93; margin-bottom:15px;">POPULAR LANGUAGES</p>
+                    <div class="lang-grid">
+                        <div class="lang-btn" onclick="changeLang('en')">English (US)</div>
+                        <div class="lang-btn" onclick="changeLang('bn')">Bengali (বাংলা)</div>
+                        <div class="lang-btn" onclick="changeLang('hi')">Hindi (हिन्दी)</div>
+                        <div class="lang-btn" onclick="changeLang('ar')">Arabic (العربية)</div>
+                    </div>
+
+                    <div class="google-box">
+                        <p style="font-weight:800; font-size:11px; color:#8e8e93; margin-bottom:15px;">ALL OTHER WORLD LANGUAGES</p>
+                        <!-- MOVE TRANSLATE HERE -->
+                        <div id="real_google_box"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="feed-container" style="text-align:center; padding-top:100px;">
+        <h1 style="font-weight:900; letter-spacing:-2px;">Zynect Alpha Feed</h1>
+        <p style="color:#8e8e93;">Your passion, connected globally.</p>
+    </div>
+
+    <!-- GOOGLE ENGINE LOAD -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en', 
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+            
+            // Move the loaded element into our styled box
+            setTimeout(() => {
+                const realBox = document.getElementById('real_google_box');
+                const engine = document.getElementById('google_translate_element');
+                realBox.appendChild(engine);
+                engine.style.display = 'block';
+            }, 1000);
+        }
+
+        function changeLang(langCode) {
+            const selectField = document.querySelector(".goog-te-combo");
+            if (selectField) {
+                selectField.value = langCode;
+                selectField.dispatchEvent(new Event('change'));
+            }
+        }
+    </script>
+    <script type="text/javascript" src="//://google.com"></script>
+
+    <script>
+        function toggleMenu() { document.getElementById('sideMenu').classList.toggle('active'); }
+        function openSettings() { document.getElementById('settingsPopup').style.display = 'flex'; toggleMenu(); }
+        function closeSettings() { document.getElementById('settingsPopup').style.display = 'none'; hideLanguages(); }
+        function showLanguages() {
+            document.getElementById('settingsMain').style.display = 'none';
+            document.getElementById('languageLayout').style.display = 'block';
+            document.getElementById('modalHeader').querySelector('h2').innerText = "Language";
+        }
+        function hideLanguages() {
+            document.getElementById('settingsMain').style.display = 'block';
+            document.getElementById('languageLayout').style.display = 'none';
+            document.getElementById('modalHeader').querySelector('h2').innerText = "Settings";
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+

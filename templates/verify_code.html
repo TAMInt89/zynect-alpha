@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zynect | Identity Authorization</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        :root { --zynect-blue: #0095f6; --glass-bg: rgba(255, 255, 255, 0.75); }
+        body { font-family: 'Inter', sans-serif; background: #fff; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
+        .page-aura { position: absolute; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at 10% 10%, #e0f2ff 0%, transparent 40%), radial-gradient(circle at 90% 80%, #fff0f5 0%, transparent 40%); animation: pulse 15s infinite alternate; }
+        @keyframes pulse { from {transform: scale(1);} to {transform: scale(1.1);} }
+
+        .auth-card { 
+            width: 400px; padding: 60px 45px; background: var(--glass-bg); backdrop-filter: blur(40px); 
+            border: 1px solid rgba(255,255,255,0.8); border-radius: 50px; text-align: center; 
+            box-shadow: 0 40px 100px rgba(0,0,0,0.05); animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes slideUp { from {opacity:0; transform:translateY(30px);} to {opacity:1; transform:translateY(0);} }
+
+        h2 { font-size: 28px; font-weight: 800; color: #1a1a1a; margin-bottom: 10px; }
+        p { font-size: 14px; color: #8e8e93; margin-bottom: 40px; line-height: 1.4; }
+
+        input { 
+            width: 100%; padding: 22px; background: #fff; border: 1px solid #e5e5e7; border-radius: 20px; 
+            font-size: 28px; text-align: center; letter-spacing: 12px; font-weight: 800; outline: none; transition: 0.4s;
+        }
+        input:focus { border-color: var(--zynect-blue); box-shadow: 0 10px 30px rgba(0,149,246,0.1); }
+
+        .btn-auth { width: 100%; padding: 18px; background: #000; color: #fff; border: none; border-radius: 18px; font-weight: 800; font-size: 16px; cursor: pointer; transition: 0.4s; margin-top: 30px; }
+        .btn-auth:hover { background: var(--zynect-blue); transform: translateY(-3px); box-shadow: 0 15px 35px rgba(0,149,246,0.25); }
+
+        .corp-brand-seal { margin-top: 50px; display: flex; align-items: center; justify-content: center; gap: 10px; opacity: 0.4; }
+        .corp-logo { width: 22px; }
+        .corp-name { font-size: 9px; letter-spacing: 5px; font-weight: 800; color: #bbb; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="page-aura"></div>
+    <div class="auth-card">
+        <h2>Identity Check</h2>
+        <p>A 6-digit authorization key has been transmitted to your system.</p>
+        <form action="/verify_access" method="post">
+            <input type="text" name="code" maxlength="6" placeholder="000000" required autofocus>
+            <button type="submit" class="btn-auth">AUTHORIZE ACCESS</button>
+        </form>
+        <div class="corp-brand-seal">
+            <img src="/static/corp_logo.png" class="corp-logo">
+            <div class="corp-name">ZYVACT INTERNATIONAL</div>
+        </div>
+    </div>
+</body>
+</html>
+
+
